@@ -1,22 +1,20 @@
-import throttle from "lodash.throttle";
-
-const formEl = document.querySelector(".feedback-form");
-const STORAGE_KEY = "feedback-form-state";
+const formEl = document.querySelector('.feedback-form');
+const STORAGE_KEY = 'feedback-form-state';
 
 const formData = {
-  email: "",
-  message: "",
+  email: '',
+  message: '',
 };
 
-// ✅ Відновлення зі сховища
+// 1) Відновлення зі сховища при завантаженні
 const savedData = localStorage.getItem(STORAGE_KEY);
 
 if (savedData) {
   try {
     const parsedData = JSON.parse(savedData);
 
-    formData.email = parsedData.email || "";
-    formData.message = parsedData.message || "";
+    formData.email = parsedData.email ?? '';
+    formData.message = parsedData.message ?? '';
 
     formEl.elements.email.value = formData.email;
     formEl.elements.message.value = formData.message;
@@ -25,32 +23,31 @@ if (savedData) {
   }
 }
 
-// ✅ Обробка input з throttle 500ms
-function handleInput(event) {
+// 2) Делегування input: оновлюємо formData одразу + пишемо в localStorage
+formEl.addEventListener('input', event => {
   const { name, value } = event.target;
 
-  if (!(name in formData)) return;
+  if (name !== 'email' && name !== 'message') return;
 
-  formData[name] = value;
+  formData[name] = value.trim();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-}
+});
 
-formEl.addEventListener("input", throttle(handleInput, 500));
-
-// ✅ Submit
-formEl.addEventListener("submit", event => {
+// 3) Submit: валідація + очищення
+formEl.addEventListener('submit', event => {
   event.preventDefault();
 
   if (!formData.email || !formData.message) {
-    alert("Fill please all fields");
+    alert('Fill please all fields');
     return;
   }
 
   console.log(formData);
 
   localStorage.removeItem(STORAGE_KEY);
-  formEl.reset();
 
-  formData.email = "";
-  formData.message = "";
+  formData.email = '';
+  formData.message = '';
+
+  formEl.reset();
 });
