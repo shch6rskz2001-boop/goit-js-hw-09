@@ -67,3 +67,54 @@
   font-size: 24px;
   font-weight: 600;
 }
+
+/* Центруємо сторінку */
+main {
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+/* Контейнер */
+.container {
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Форма вертикально */
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Лейбли теж вертикально */
+.feedback-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Поля */
+.feedback-form input,
+.feedback-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #808080;
+  border-radius: 4px;
+}
+
+/* Кнопка */
+.feedback-form button {
+  align-self: flex-start;
+  padding: 8px 16px;
+  background-color: #4e75ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.feedback-form button:hover {
+  background-color: #6c8cff;
+}
